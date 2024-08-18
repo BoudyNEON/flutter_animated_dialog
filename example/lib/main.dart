@@ -7,16 +7,13 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   bool showPerformance = false;
 
-  onSettingCallback() {
+  void onSettingCallback() {
     setState(() {
       showPerformance = !showPerformance;
     });
@@ -24,812 +21,250 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    final appTitle = 'Animated Dialog Example';
+    const appTitle = 'Animated Dialog Example';
     return MaterialApp(
       title: appTitle,
       showPerformanceOverlay: showPerformance,
-      home: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return MyHomePage(
-            title: appTitle,
-            onSetting: onSettingCallback,
-          );
-        },
+      home: MyHomePage(
+        title: appTitle,
+        onSetting: onSettingCallback,
       ),
     );
   }
 }
 
-// The StatefulWidget's job is to take in some data and create a State class.
-// In this case, the Widget takes a title, and creates a _MyHomePageState.
 class MyHomePage extends StatefulWidget {
   final String title;
-
   final VoidCallback onSetting;
 
-  MyHomePage({Key key, this.title, this.onSetting}) : super(key: key);
+  const MyHomePage({
+    required this.title,
+    required this.onSetting,
+  });
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-// The State class is responsible for two things: holding some data you can
-// update and building the UI using that data.
 class _MyHomePageState extends State<MyHomePage> {
-  // Whether the green box should be visible or invisible
-
-  String selectedIndexText;
-
-  int selectIdx;
-
-  String singleSelectedIndexText;
-
-  int selectIndex;
-
-  String multiSelectedIndexesText;
-
-  List<int> selectedIndexes;
+  String selectedIndexText = '';
+  int selectIdx = 0;
+  String singleSelectedIndexText = '';
+  int selectIndex = 0;
+  String multiSelectedIndexesText = '';
+  List<int> selectedIndexes = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {
-              widget.onSetting?.call();
-            },
-          )
+            onPressed: widget.onSetting,
+          ),
         ],
       ),
       body: Center(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(bottom: 10.0),
-              padding: EdgeInsets.only(left: 15.0),
-              height: 35.0,
-              alignment: Alignment.centerLeft,
-              child: Text('General dialog'),
-              color: const Color(0xFFDDDDDD),
-            ),
-            ListTile(
-              title: Text('Default'),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.fade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from top",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromTop,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from top and fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromTopFade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from bottom",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromBottom,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from bottom and fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromBottomFade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from left",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromLeft,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from left and fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromLeftFade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from right",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromRight,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Slide from right and fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.slideFromRightFade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Scale",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.scale,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Fade scale",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.fadeScale,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Scale rotate",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.scaleRotate,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Rotate",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.rotate,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Fade rotate",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.fadeRotate,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Rotate 3D",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.rotate3D,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Size",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Size fade",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.sizeFade,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "No animation",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'content',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.none,
-                  curve: Curves.fastOutSlowIn,
-                  duration: Duration(seconds: 1),
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-
-            ///Classic dialog widget
-            Container(
-              margin: EdgeInsets.only(bottom: 10.0, top: 50.0),
-              padding: EdgeInsets.only(left: 15.0),
-              height: 35.0,
-              alignment: Alignment.centerLeft,
-              child: Text('Classic dialog widget'),
-              color: const Color(0xFFDDDDDD),
-            ),
-            ListTile(
-              title: Text(
-                "General dialog",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicGeneralDialogWidget(
-                      titleText: 'Title',
-                      contentText: 'This is general dialog.',
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.linear,
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "List dialog ${selectedIndexText != null && selectedIndexText.isNotEmpty ? '(index:' + selectedIndexText + ')' : ''}",
-              ),
-              onTap: () async {
-                int index = await showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicListDialogWidget<ListDataModel>(
-                      titleText: 'Title',
-                      dataList: List.generate(
-                        2,
-                        (index) {
-                          return ListDataModel(
-                              name: 'Name$index', value: 'Value$index');
-                        },
-                      ),
-                      onPositiveClick: () {
-                        Navigator.of(context).pop();
-                      },
-                      onNegativeClick: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.linear,
-                );
+          children: [
+            _buildHeader('General dialog'),
+            _buildListTile('Default', () => _showDialog(context)),
+            _buildDivider(),
+            _buildListTile('Fade', () => _showDialog(context, DialogTransitionType.fade)),
+            _buildDivider(),
+            _buildListTile('Slide from top', () => _showDialog(context, DialogTransitionType.slideFromTop)),
+            _buildDivider(),
+            _buildListTile(
+                'Slide from top and fade', () => _showDialog(context, DialogTransitionType.slideFromTopFade)),
+            _buildDivider(),
+            _buildListTile('Slide from bottom', () => _showDialog(context, DialogTransitionType.slideFromBottom)),
+            _buildDivider(),
+            _buildListTile(
+                'Slide from bottom and fade', () => _showDialog(context, DialogTransitionType.slideFromBottomFade)),
+            _buildDivider(),
+            _buildListTile('Slide from left', () => _showDialog(context, DialogTransitionType.slideFromLeft)),
+            _buildDivider(),
+            _buildListTile(
+                'Slide from left and fade', () => _showDialog(context, DialogTransitionType.slideFromLeftFade)),
+            _buildDivider(),
+            _buildListTile('Slide from right', () => _showDialog(context, DialogTransitionType.slideFromRight)),
+            _buildDivider(),
+            _buildListTile(
+                'Slide from right and fade', () => _showDialog(context, DialogTransitionType.slideFromRightFade)),
+            _buildDivider(),
+            _buildListTile('Scale', () => _showDialog(context, DialogTransitionType.scale)),
+            _buildDivider(),
+            _buildListTile('Fade scale', () => _showDialog(context, DialogTransitionType.fadeScale)),
+            _buildDivider(),
+            _buildListTile('Scale rotate', () => _showDialog(context, DialogTransitionType.scaleRotate)),
+            _buildDivider(),
+            _buildListTile('Rotate', () => _showDialog(context, DialogTransitionType.rotate)),
+            _buildDivider(),
+            _buildListTile('Fade rotate', () => _showDialog(context, DialogTransitionType.fadeRotate)),
+            _buildDivider(),
+            _buildListTile('Rotate 3D', () => _showDialog(context, DialogTransitionType.rotate3D)),
+            _buildDivider(),
+            _buildListTile('Size', () => _showDialog(context, DialogTransitionType.size)),
+            _buildDivider(),
+            _buildListTile('Size fade', () => _showDialog(context, DialogTransitionType.sizeFade)),
+            _buildDivider(),
+            _buildListTile('No animation', () => _showDialog(context, DialogTransitionType.none)),
+            _buildDivider(),
+            _buildHeader('Classic dialog widget'),
+            _buildListTile('General dialog', () => _showDialog(context, DialogTransitionType.size, Curves.linear)),
+            _buildDivider(),
+            _buildListTile('List dialog ${_formattedIndexText(selectedIndexText)}', () async {
+              int? index = await _showListDialog(context);
+              setState(() {
                 selectIdx = index ?? selectIdx;
-                print('selectedIndex:$selectIdx');
-                setState(() {
-                  this.selectedIndexText = '${selectIdx ?? ''}';
-                });
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "List single select${singleSelectedIndexText != null && singleSelectedIndexText.isNotEmpty ? '(index:' + singleSelectedIndexText + ')' : ''}",
-              ),
-              onTap: () async {
-                int index = await showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicListDialogWidget<ListDataModel>(
-                      titleText: 'Title',
-                      listType: ListType.singleSelect,
-                      activeColor: Colors.red,
-                      selectedIndex: selectIndex,
-                      dataList: List.generate(
-                        20,
-                        (index) {
-                          return ListDataModel(
-                              name: 'Name$index', value: 'Value$index');
-                        },
-                      ),
-                    );
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.linear,
-                );
+                selectedIndexText = '$selectIdx';
+              });
+            }),
+            _buildDivider(),
+            _buildListTile('List single select${_formattedIndexText(singleSelectedIndexText)}', () async {
+              int? index = await _showSingleSelectListDialog(context);
+              setState(() {
                 selectIndex = index ?? selectIndex;
-
-                print('selectedIndex:$selectIndex');
-                setState(() {
-                  this.singleSelectedIndexText = '${selectIndex ?? ''}';
-                });
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "List multiple select${multiSelectedIndexesText != null && multiSelectedIndexesText.isNotEmpty ? '(index:' + multiSelectedIndexesText + ')' : ''}",
-              ),
-              onTap: () async {
-                List<int> indexes = await showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return ClassicListDialogWidget<ListDataModel>(
-                      titleText: 'Title',
-                      listType: ListType.multiSelect,
-                      selectedIndexes: selectedIndexes,
-                      activeColor: Colors.green,
-                      dataList: List.generate(
-                        20,
-                        (index) {
-                          return ListDataModel(
-                              name: 'Name$index', value: 'Value$index');
-                        },
-                      ),
-                    );
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.linear,
-                );
-
+                singleSelectedIndexText = '$selectIndex';
+              });
+            }),
+            _buildDivider(),
+            _buildListTile('List multiple select${_formattedIndexText(multiSelectedIndexesText)}', () async {
+              List<int>? indexes = await _showMultiSelectListDialog(context);
+              setState(() {
                 selectedIndexes = indexes ?? selectedIndexes;
-                print('selectedIndex:${selectedIndexes?.toString()}');
-                setState(() {
-                  this.multiSelectedIndexesText =
-                      selectedIndexes != null && selectedIndexes.length > 0
-                          ? selectedIndexes.toString()
-                          : '';
-                });
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
-            ListTile(
-              title: Text(
-                "Custom dialog",
-              ),
-              onTap: () {
-                showAnimatedDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                        child: ListBody(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          width: 200.0,
-                          child: FlutterLogo(
-                            size: 150.0,
-                          ),
-                        )
-                      ],
-                    ));
-                  },
-                  animationType: DialogTransitionType.size,
-                  curve: Curves.linear,
-                );
-              },
-            ),
-            Divider(
-              height: 0.5,
-            ),
+                multiSelectedIndexesText = selectedIndexes.isNotEmpty ? selectedIndexes.toString() : '';
+              });
+            }),
+            _buildDivider(),
+            _buildListTile('Custom dialog', () => _showCustomDialog(context)),
+            _buildDivider(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildHeader(String text) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.0),
+      padding: EdgeInsets.only(left: 15.0),
+      height: 35.0,
+      alignment: Alignment.centerLeft,
+      child: Text(text),
+      color: const Color(0xFFDDDDDD),
+    );
+  }
+
+  Widget _buildListTile(String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(title),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(height: 0.5);
+  }
+
+  String _formattedIndexText(String text) {
+    return text.isNotEmpty ? '(index: $text)' : '';
+  }
+
+  Future<void> _showDialog(BuildContext context,
+      [DialogTransitionType type = DialogTransitionType.none, Curve curve = Curves.fastOutSlowIn]) {
+    return showAnimatedDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return ClassicGeneralDialogWidget(
+          titleText: 'Title',
+          contentText: 'content',
+          onPositiveClick: () => Navigator.of(context).pop(),
+          onNegativeClick: () => Navigator.of(context).pop(),
+        );
+      },
+      animationType: type,
+      curve: curve,
+      duration: Duration(seconds: 1),
+    );
+  }
+
+  Future<int?> _showListDialog(BuildContext context) {
+    return showAnimatedDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return ClassicListDialogWidget<ListDataModel>(
+          titleText: 'Title',
+          dataList: List.generate(2, (index) => ListDataModel(name: 'Name$index', value: 'Value$index')),
+          onPositiveClick: () => Navigator.of(context).pop(),
+          onNegativeClick: () => Navigator.of(context).pop(),
+        );
+      },
+      animationType: DialogTransitionType.size,
+      curve: Curves.linear,
+    );
+  }
+
+  Future<int?> _showSingleSelectListDialog(BuildContext context) {
+    return showAnimatedDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return ClassicListDialogWidget<ListDataModel>(
+          titleText: 'Title',
+          listType: ListType.singleSelect,
+          activeColor: Colors.red,
+          selectedIndex: selectIndex,
+          dataList: List.generate(20, (index) => ListDataModel(name: 'Name$index', value: 'Value$index')),
+        );
+      },
+      animationType: DialogTransitionType.size,
+      curve: Curves.linear,
+    );
+  }
+
+  Future<List<int>?> _showMultiSelectListDialog(BuildContext context) {
+    return showAnimatedDialog<List<int>>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return ClassicListDialogWidget<ListDataModel>(
+          titleText: 'Title',
+          listType: ListType.multiSelect,
+          selectedIndexes: selectedIndexes,
+          activeColor: Colors.green,
+          dataList: List.generate(20, (index) => ListDataModel(name: 'Name$index', value: 'Value$index')),
+        );
+      },
+      animationType: DialogTransitionType.size,
+      curve: Curves.linear,
+    );
+  }
+
+  void _showCustomDialog(BuildContext context) {
+    showAnimatedDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Container(
+                padding: EdgeInsets.all(10.0),
+                width: 200.0,
+                child: FlutterLogo(size: 150.0),
+              ),
+            ],
+          ),
+        );
+      },
+      animationType: DialogTransitionType.size,
+      curve: Curves.linear,
     );
   }
 }

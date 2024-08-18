@@ -1,3 +1,8 @@
+## [1.3.0]
+ * upgraded to flutter 3 
+ * migrated to null safety
+
+
 ## [1.2.0]
 
 Compatible with Flutter 1.24.
